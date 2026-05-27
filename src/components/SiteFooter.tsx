@@ -3,10 +3,10 @@ import { SITE } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border mt-32">
-      <div className="container-edit py-20 grid gap-14 md:grid-cols-12">
+    <footer className="border-t border-border mt-40">
+      <div className="container-edit py-24 grid gap-16 md:grid-cols-12">
         <div className="md:col-span-5">
-          <div className="font-serif text-5xl md:text-6xl leading-[0.95] tracking-tight">
+          <div className="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight">
             Estudio<br />Onix
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-sm">

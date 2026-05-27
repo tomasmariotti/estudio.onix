@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 
 function NotFoundComponent() {
@@ -124,6 +125,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SmoothScroll />
+      <ScrollProgress />
       <Outlet />
     </QueryClientProvider>
   );

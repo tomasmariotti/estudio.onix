@@ -12,11 +12,14 @@ export function SmoothScroll() {
     import("lenis").then(({ default: Lenis }) => {
       if (cancelled) return;
       const lenis = new Lenis({
-        duration: 1.6,
-        easing: (t: number) => 1 - Math.pow(1 - t, 4),
+        // Slower, weightier scroll — feels like entering a room
+        duration: 1.95,
+        // Quintic ease-out: long deceleration tail
+        easing: (t: number) => 1 - Math.pow(1 - t, 5),
         smoothWheel: true,
-        wheelMultiplier: 0.75,
-        touchMultiplier: 1.0,
+        wheelMultiplier: 0.62,
+        touchMultiplier: 0.95,
+        lerp: 0.085,
       });
       const raf = (time: number) => {
         lenis.raf(time);

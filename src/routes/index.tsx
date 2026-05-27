@@ -120,7 +120,7 @@ function ScrollHero() {
   /* Cinematic stagger — slow, deliberate reveal */
   const containerAnim = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.22, delayChildren: 0.6 } },
+    show: { transition: { staggerChildren: 0.28, delayChildren: 0.7 } },
   };
   const eyebrowAnim = {
     hidden: { opacity: 0, y: 14, filter: "blur(4px)" },
@@ -219,7 +219,7 @@ function ScrollHero() {
                 </motion.div>
                 <motion.h1
                   variants={headingAnim}
-                  className="font-serif leading-[0.92] tracking-tight text-white"
+                  className="font-serif leading-[0.9] tracking-tight text-white"
                   style={{
                     fontSize: "clamp(2.2rem, 6vw, 5.5rem)",
                   }}
@@ -238,7 +238,7 @@ function ScrollHero() {
               <div className="md:col-span-4">
                 <motion.p
                   variants={bodyAnim}
-                  className="text-sm md:text-base text-white/60 max-w-sm leading-relaxed"
+                  className="text-sm md:text-base text-white/55 max-w-sm leading-relaxed"
                 >
                   Arquitectura, interiorismo y reformas integrales con una
                   visión moderna, funcional y cuidadosamente pensada.
@@ -282,10 +282,10 @@ function ScrollHero() {
           transition={{ delay: 2.2, duration: 1.2, ease: [0.12, 0.8, 0.22, 1] }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 scroll-breathe"
         >
-          <span className="text-[0.58rem] tracking-[0.35em] uppercase text-white/35 font-medium">
+          <span className="text-[0.55rem] tracking-[0.42em] uppercase text-white/30 font-medium">
             Scroll
           </span>
-          <div className="w-px h-10 bg-gradient-to-b from-white/35 to-transparent" />
+          <div className="w-px h-12 bg-gradient-to-b from-white/30 to-transparent" />
         </motion.div>
       </div>
     </section>
@@ -299,7 +299,7 @@ function Philosophy() {
       <div className="grid md:grid-cols-12 gap-12 md:gap-20">
         <div className="md:col-span-5">
           <Reveal>
-            <div className="eyebrow mb-6">Filosofía</div>
+            <div className="chapter-mark"><span className="eyebrow">Filosofía</span></div>
             <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
               Una sola visión.{" "}
               <span className="italic text-muted-foreground">
@@ -382,7 +382,7 @@ function FeaturedProjects() {
       <div className="container-edit py-32 md:py-48">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20">
           <Reveal>
-            <div className="eyebrow mb-6">Proyectos destacados</div>
+            <div className="chapter-mark"><span className="eyebrow">Proyectos destacados</span></div>
             <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight max-w-3xl">
               Espacios diseñados{" "}
               <span className="italic">con criterio</span>.
@@ -449,7 +449,7 @@ function ServicesSection() {
       <div className="grid md:grid-cols-12 gap-12 md:gap-20">
         <div className="md:col-span-5">
           <Reveal>
-            <div className="eyebrow mb-6">Servicios</div>
+            <div className="chapter-mark"><span className="eyebrow">Servicios</span></div>
             <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
               Lo que <span className="italic">hacemos</span>.
             </h2>
@@ -499,7 +499,7 @@ function ProcessSection() {
     <section className="border-t border-border bg-secondary/40" id="proceso">
       <div className="container-edit py-32 md:py-48">
         <Reveal>
-          <div className="eyebrow mb-6">Proceso</div>
+          <div className="chapter-mark"><span className="eyebrow">Proceso</span></div>
           <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight max-w-3xl">
             Cada etapa, <span className="italic">acompañada</span>.
           </h2>
@@ -510,20 +510,17 @@ function ProcessSection() {
           </p>
         </Reveal>
 
-        <div className="mt-20 md:mt-28 grid md:grid-cols-2 gap-x-16 lg:gap-x-24">
+        <div className="mt-20 md:mt-28">
           {processSteps.map((step, i) => (
-            <Reveal key={step.n} delay={i * 80}>
-              <div className="group grid grid-cols-[auto_1fr] gap-6 md:gap-8 py-8 md:py-10 border-t border-border">
-                <div className="font-serif text-3xl md:text-4xl text-muted-foreground/50 group-hover:text-muted-foreground transition-colors duration-500">
-                  {step.n}
-                </div>
+            <Reveal key={step.n} delay={i * 90}>
+              <div className="process-row group">
+                <div className="process-row__num">{step.n}</div>
                 <div>
-                  <h3 className="font-serif text-2xl md:text-3xl tracking-tight">
-                    {step.t}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground max-w-md leading-relaxed">
-                    {step.d}
-                  </p>
+                  <h3 className="process-row__title">{step.t}</h3>
+                  <p className="process-row__desc">{step.d}</p>
+                </div>
+                <div className="process-row__meta">
+                  Etapa {String(i + 1).padStart(2, "0")} / {String(processSteps.length).padStart(2, "0")}
                 </div>
               </div>
             </Reveal>
@@ -539,7 +536,7 @@ function TestimonialsSection() {
   return (
     <section className="container-edit py-32 md:py-48" id="testimonios">
       <Reveal>
-        <div className="eyebrow mb-6">Testimonios</div>
+        <div className="chapter-mark"><span className="eyebrow">Testimonios</span></div>
         <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight max-w-3xl">
           Lo que <span className="italic">cuentan</span> quienes confiaron en
           el estudio.
@@ -585,7 +582,7 @@ function PremiumCTA() {
           </div>
           <div className="px-8 md:px-20 py-24 md:py-36 max-w-3xl">
             <Reveal>
-              <div className="eyebrow mb-6">Asesoría inicial</div>
+              <div className="chapter-mark"><span className="eyebrow">Asesoría inicial</span></div>
               <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
                 Descubrí el{" "}
                 <span className="italic">potencial real</span> de tu
@@ -637,7 +634,7 @@ function ContactSection() {
       <div className="container-edit py-32 md:py-48 grid md:grid-cols-12 gap-12 md:gap-16">
         <div className="md:col-span-4">
           <Reveal>
-            <div className="eyebrow mb-6">Contacto profesional</div>
+            <div className="chapter-mark"><span className="eyebrow">Contacto profesional</span></div>
             <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl leading-[0.95] tracking-tight">
               Contanos sobre tu{" "}
               <span className="italic">proyecto</span>.
