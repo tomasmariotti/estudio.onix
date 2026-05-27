@@ -95,6 +95,14 @@
     scroll-behavior: auto;
     /* Anchor offset so in-page jumps don't sit under the fixed nav */
     scroll-padding-top: 96px;
+    /* Native-feeling overscroll on iOS/Android; prevents pull-to-refresh
+       from interrupting cinematic frame transitions at the top of pages. */
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    /* Mobile Safari: inertial native scroll */
+    -webkit-overflow-scrolling: touch;
   }
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -140,6 +148,9 @@
   /* Slightly denser on small screens for premium hierarchy */
   @media (max-width: 640px) {
     body { font-size: 14.5px; line-height: 1.6; }
+    h1, h2, h3, h4, .font-serif { letter-spacing: -0.01em; }
+    /* Prevent very long tokens (URLs, project codes) from causing horizontal overflow */
+    p, h1, h2, h3, h4 { overflow-wrap: anywhere; }
   }
 
   /* Image rendering polish */
@@ -192,7 +203,7 @@
   /* ── Reveal — slower, softer, more cinematic ── */
   .reveal {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translate3d(0, 28px, 0);
     transition:
       opacity 1.6s var(--ease-quint-out),
       transform 1.6s var(--ease-quint-out),
@@ -201,8 +212,19 @@
   }
   .reveal.is-in {
     opacity: 1;
-    transform: none;
+    transform: translate3d(0, 0, 0);
     filter: blur(0);
+  }
+  /* Mobile: drop GPU-expensive blur, shorten travel.
+     Composited blur stalls iOS Safari + low-end Android badly during scroll. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .reveal {
+      transform: translate3d(0, 18px, 0);
+      filter: none;
+      transition:
+        opacity 1.05s var(--ease-quint-out),
+        transform 1.05s var(--ease-quint-out);
+    }
   }
   /* Variant: hairline that draws in as it enters view */
   .reveal-line {
@@ -230,10 +252,11 @@
     transition:
       transform 2s var(--ease-cinematic),
       filter 1.4s ease;
-    will-change: transform;
   }
-  .img-hover:hover img {
-    transform: scale(1.035);
+  /* will-change is expensive; promote only on hover-capable devices */
+  @media (hover: hover) {
+    .img-hover img { will-change: transform; }
+    .img-hover:hover img { transform: scale(1.035); }
   }
   /* Subtle veil that softens on hover for editorial polish */
   .img-hover::after {
@@ -311,6 +334,17 @@
     animation: heroDrift 22s ease-in-out infinite alternate;
     opacity: .55;
     pointer-events: none;
+    will-change: transform;
+  }
+  /* Mobile: reduce blur radius and drift distance.
+     A 40px CSS blur on a full-viewport layer is one of the heaviest
+     compositor ops; cut it down for iOS / mid-range Android. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .hero-gradient {
+      filter: blur(24px);
+      opacity: .45;
+      animation-duration: 30s;
+    }
   }
   @keyframes heroDrift {
     0%   { transform: translate3d(-2%, -1%, 0) scale(1); }
@@ -321,9 +355,15 @@
   .hero-scroll-container {
     position: relative;
     width: 100%;
+    /* Stabilize against iOS dynamic toolbar height changes during scroll.
+       Prevents layout shift / frame jitter when the address bar collapses. */
+    contain: layout paint;
   }
   .hero-scroll-container canvas {
     image-rendering: auto;
+    /* Hint compositor; avoids repaints during scroll-driven canvas updates */
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   /* ── Section divider line ── */
@@ -462,5 +502,12 @@
     .hero-gradient { animation: none; }
     .scroll-breathe { animation: none; }
     .img-hover img { transition: none !important; }
+    .btn-primary, .btn-outline, .glow-card { transition: none !important; }
+  }
+
+  /* Touch devices: kill hover-only transforms that can stick after a tap */
+  @media (hover: none) {
+    .glow-card:hover { transform: none; box-shadow: none; }
+    .btn-primary:hover, .btn-outline:hover { transform: none; box-shadow: none; }
   }
 }

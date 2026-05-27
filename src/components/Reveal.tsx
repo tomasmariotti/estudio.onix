@@ -19,7 +19,14 @@ export function Reveal({
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add("is-in"), delay);
+            const target = e.target as HTMLElement;
+            // Promote to its own compositor layer for the entry transition only
+            target.style.willChange = "opacity, transform, filter";
+            window.setTimeout(() => target.classList.add("is-in"), delay);
+            // Drop will-change after the transition completes (~1.6s + delay)
+            window.setTimeout(() => {
+              target.style.willChange = "";
+            }, 1700 + delay);
             io.unobserve(e.target);
           }
         }
