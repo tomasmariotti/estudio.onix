@@ -543,7 +543,7 @@ function SiteManagerSection() {
               <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-foreground/[0.04] to-transparent -z-10" />
               <div className="img-hover overflow-hidden bg-secondary aspect-[3/4]">
                 <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/martin%20rojas-TVAkmsUlG3KxNTVGcAHRA9Xwf5nmVB.png"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/martin.rojas-ClrBhuJW60twVgbISruWDdbpbMGc99.png"
                   alt="Martin Rojas, Maestro Mayor de Obras de Estudio Onix"
                   className="h-full w-full object-cover object-top"
                   loading="lazy"
