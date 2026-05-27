@@ -60,6 +60,10 @@
   --border: oklch(0.88 0.01 78);
   --input: oklch(0.9 0.01 78);
   --ring: oklch(0.7 0.02 70);
+
+  /* Cinematic easing tokens */
+  --ease-cinematic: cubic-bezier(.16,.6,.24,1);
+  --ease-soft:      cubic-bezier(.22,.61,.36,1);
 }
 
 .dark {
@@ -88,6 +92,8 @@
   }
   html {
     scroll-behavior: auto;
+    /* Anchor offset so in-page jumps don't sit under the fixed nav */
+    scroll-padding-top: 96px;
   }
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -100,17 +106,41 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Editorial body rhythm */
+    font-size: 15px;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
   }
   h1, h2, h3, h4, .font-serif {
     font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
   ::selection {
     background: var(--ink);
     color: var(--background);
   }
+
+  /* Editorial focus ring */
+  :where(a, button, [role="button"], input, textarea, select):focus-visible {
+    outline: 1px solid color-mix(in oklab, var(--foreground) 50%, transparent);
+    outline-offset: 3px;
+    border-radius: 1px;
+  }
+
+  /* Slightly denser on small screens for premium hierarchy */
+  @media (max-width: 640px) {
+    body { font-size: 14.5px; line-height: 1.6; }
+  }
+
+  /* Image rendering polish */
+  img { image-rendering: auto; }
 }
 
 @layer utilities {
@@ -136,28 +166,46 @@
   /* ── Reveal — slower, softer, more cinematic ── */
   .reveal {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(22px);
     transition:
-      opacity 1.4s cubic-bezier(.16,.6,.24,1),
-      transform 1.4s cubic-bezier(.16,.6,.24,1);
+      opacity 1.4s var(--ease-cinematic),
+      transform 1.4s var(--ease-cinematic),
+      filter 1.4s var(--ease-cinematic);
+    filter: blur(2px);
   }
   .reveal.is-in {
     opacity: 1;
     transform: none;
+    filter: blur(0);
   }
 
   /* ── Image hover — slow, editorial zoom ── */
   .img-hover {
     overflow: hidden;
+    position: relative;
   }
   .img-hover img {
     transition:
-      transform 1.6s cubic-bezier(.16,.6,.24,1),
+      transform 1.8s var(--ease-cinematic),
       filter 1.2s ease;
+    will-change: transform;
   }
   .img-hover:hover img {
-    transform: scale(1.035);
+    transform: scale(1.04);
   }
+  /* Subtle veil that softens on hover for editorial polish */
+  .img-hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      transparent 60%,
+      color-mix(in oklab, var(--foreground) 6%, transparent) 100%);
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-cinematic);
+    pointer-events: none;
+  }
+  .img-hover:hover::after { opacity: 1; }
 
   /* ── Underline slide — elegant timing ── */
   .underline-slide {
@@ -165,7 +213,7 @@
     background-size: 0% 1px;
     background-repeat: no-repeat;
     background-position: 0 100%;
-    transition: background-size .7s cubic-bezier(.16,.7,.24,1);
+    transition: background-size .8s var(--ease-cinematic), color .6s var(--ease-cinematic);
     padding-bottom: 2px;
   }
   .underline-slide:hover {
@@ -177,20 +225,23 @@
     position: relative;
     display: block;
     border-radius: 1.25rem;
-    border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+    border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
     background: color-mix(in oklab, var(--background) 88%, var(--sand) 12%);
     overflow: hidden;
     isolation: isolate;
     transition:
-      transform .8s cubic-bezier(.16,.6,.24,1),
-      border-color .7s ease,
-      box-shadow .8s ease;
+      transform .9s var(--ease-cinematic),
+      border-color .8s ease,
+      box-shadow .9s ease,
+      background-color .8s ease;
     will-change: transform;
   }
   .glow-card:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in oklab, var(--foreground) 18%, transparent);
-    box-shadow: 0 28px 56px -28px color-mix(in oklab, var(--foreground) 20%, transparent);
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 4%, transparent),
+      0 30px 60px -32px color-mix(in oklab, var(--foreground) 22%, transparent);
   }
   .glow-card__glow {
     position: absolute;
@@ -198,10 +249,10 @@
     pointer-events: none;
     border-radius: inherit;
     background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%),
-                color-mix(in oklab, var(--foreground) 10%, transparent),
+                color-mix(in oklab, var(--foreground) 9%, transparent),
                 transparent 55%);
     opacity: 0;
-    transition: opacity .6s ease;
+    transition: opacity .7s var(--ease-cinematic);
     z-index: 0;
   }
   .glow-card:hover .glow-card__glow { opacity: 1; }
@@ -246,14 +297,14 @@
     position: relative;
     overflow: hidden;
     transition:
-      background-color .6s cubic-bezier(.16,.6,.24,1),
-      color .6s cubic-bezier(.16,.6,.24,1),
-      transform .6s cubic-bezier(.16,.6,.24,1),
-      box-shadow .6s ease;
+      background-color .7s var(--ease-cinematic),
+      color .7s var(--ease-cinematic),
+      transform .7s var(--ease-cinematic),
+      box-shadow .7s ease;
   }
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--foreground) 18%, transparent);
+    box-shadow: 0 10px 28px -10px color-mix(in oklab, var(--foreground) 22%, transparent);
   }
   .btn-primary:active {
     transform: translateY(0);
@@ -263,10 +314,10 @@
   .btn-outline {
     position: relative;
     transition:
-      border-color .6s cubic-bezier(.16,.6,.24,1),
-      background-color .6s cubic-bezier(.16,.6,.24,1),
-      color .6s cubic-bezier(.16,.6,.24,1),
-      transform .6s cubic-bezier(.16,.6,.24,1);
+      border-color .7s var(--ease-cinematic),
+      background-color .7s var(--ease-cinematic),
+      color .7s var(--ease-cinematic),
+      transform .7s var(--ease-cinematic);
   }
   .btn-outline:hover {
     transform: translateY(-1px);
@@ -274,6 +325,14 @@
   .btn-outline:active {
     transform: translateY(0);
     transition-duration: .15s;
+  }
+
+  /* Arrow micro-interaction shared by CTAs */
+  .group:hover .cta-arrow {
+    transform: translate(2px, -2px);
+  }
+  .cta-arrow {
+    transition: transform .8s var(--ease-cinematic);
   }
 
   /* ── Hero scroll indicator breathing animation ── */
@@ -286,8 +345,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1 !important; transform: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
     .hero-gradient { animation: none; }
     .scroll-breathe { animation: none; }
+    .img-hover img { transition: none !important; }
   }
 }

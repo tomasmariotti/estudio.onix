@@ -35,7 +35,7 @@ export function SiteFooter() {
             href={SITE.calendly}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center mt-6 text-sm border border-foreground px-5 py-2.5 hover:bg-foreground hover:text-background transition-colors duration-500"
+            className="btn-outline inline-flex items-center mt-6 text-sm border border-foreground px-5 py-2.5 hover:bg-foreground hover:text-background"
           >
             Reservá una llamada →
           </a>

@@ -125,9 +125,9 @@ function Servicios() {
               href={SITE.calendly}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 bg-foreground text-background px-7 py-4 text-sm hover:bg-foreground/85 transition-colors"
+              className="btn-primary group inline-flex items-center gap-2 bg-foreground text-background px-7 py-4 text-sm hover:bg-foreground/85"
             >
-              Agendá una asesoría <ArrowUpRight size={16} />
+              Agendá una asesoría <ArrowUpRight size={16} className="transition-transform duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
             <Link to="/proyectos" className="inline-flex items-center gap-2 text-sm underline-slide">
               Ver proyectos

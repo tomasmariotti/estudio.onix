@@ -75,7 +75,7 @@ function Proyectos() {
             <button
               key={c}
               onClick={() => setActive(c)}
-              className={`transition-colors ${
+              className={`transition-colors duration-500 ease-[cubic-bezier(.16,.6,.24,1)] ${
                 active === c ? "text-foreground" : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -116,9 +116,9 @@ function Proyectos() {
               href={SITE.calendly}
               target="_blank"
               rel="noreferrer"
-              className="mt-10 inline-flex items-center gap-2 bg-foreground text-background px-7 py-4 text-sm hover:bg-foreground/85 transition-colors"
+              className="btn-primary group mt-10 inline-flex items-center gap-2 bg-foreground text-background px-7 py-4 text-sm hover:bg-foreground/85"
             >
-              Agendá una asesoría inicial <ArrowUpRight size={16} />
+              Agendá una asesoría inicial <ArrowUpRight size={16} className="transition-transform duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           </Reveal>
         </div>

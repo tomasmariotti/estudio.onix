@@ -19,7 +19,7 @@ function Contacto() {
     }, 500);
   };
   const field =
-    "w-full bg-transparent border-b border-border py-4 text-base placeholder:text-muted-foreground/70 focus:outline-none focus:border-foreground transition-colors";
+    "w-full bg-transparent border-b border-border py-4 text-base placeholder:text-muted-foreground/70 focus:outline-none focus:border-foreground transition-colors duration-700 ease-[cubic-bezier(.16,.6,.24,1)]";
 
   return (
     <div className="bg-background text-foreground">
@@ -40,7 +40,7 @@ function Contacto() {
               href={SITE.calendly}
               target="_blank"
               rel="noreferrer"
-              className="group flex items-center justify-between gap-4 border border-foreground p-6 hover:bg-foreground hover:text-background transition-colors"
+              className="btn-outline group flex items-center justify-between gap-4 border border-foreground p-6 hover:bg-foreground hover:text-background"
             >
               <span>
                 <span className="eyebrow opacity-70">Camino más rápido</span>
@@ -124,10 +124,10 @@ function Contacto() {
             <button
               type="submit"
               disabled={submitting}
-              className="group inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 text-sm hover:bg-foreground/85 transition-colors disabled:opacity-60"
+              className="btn-primary group inline-flex items-center gap-3 bg-foreground text-background px-8 py-4 text-sm hover:bg-foreground/85 disabled:opacity-60"
             >
               {submitting ? "Enviando…" : "Enviar y reservar llamada"}
-              <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <ArrowUpRight size={16} className="transition-transform duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
           </div>
         </form>
