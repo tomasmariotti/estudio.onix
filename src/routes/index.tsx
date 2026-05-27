@@ -17,6 +17,7 @@ import imgLocal from "@/assets/proj-06-local.png";
 import imgMarble from "@/assets/proj-07-marble.png";
 import imgShower from "@/assets/proj-08-shower.png";
 import hero from "@/assets/proj-02-facade.png";
+import martinRojas from "@/assets/martin-rojas.png";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -93,6 +94,7 @@ function Home() {
       <SiteNav />
       <ScrollHero />
       <Philosophy />
+      <TeamLead />
       <FeaturedProjects />
       <ServicesSection />
       <ProcessSection />
