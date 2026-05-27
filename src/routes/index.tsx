@@ -23,12 +23,12 @@ export const Route = createFileRoute("/")({ component: Home });
 /* ─── Data ─── */
 
 const projects = [
-  { title: "Casa Belgrano", cat: "Vivienda", year: "2024", loc: "Ramos Mejía", img: imgBedroom },
+  { title: "Casa Belgrano", cat: "Vivienda", year: "2024", loc: "Buenos Aires", img: imgBedroom },
   { title: "Edificio Aurora", cat: "Arquitectura", year: "2024", loc: "Buenos Aires", img: hero },
   { title: "Baño Onix", cat: "Reforma", year: "2024", loc: "Haedo", img: imgShower },
   { title: "Cocina Mármol", cat: "Interiorismo", year: "2023", loc: "Castelar", img: imgMarble },
   { title: "Atrio Cívico", cat: "Arquitectura", year: "2023", loc: "CABA", img: imgAtrium },
-  { title: "Local Botánico", cat: "Comercial", year: "2024", loc: "Ramos Mejía", img: imgLocal },
+  { title: "Local Botánico", cat: "Comercial", year: "2024", loc: "Buenos Aires", img: imgLocal },
 ];
 
 const services = [
@@ -67,7 +67,7 @@ const testimonials = [
   {
     q: "Llevamos adelante una reforma integral con una claridad y organización que no habíamos visto antes. Cada detalle estaba pensado.",
     a: "Sofía M.",
-    p: "Vivienda — Ramos Mejía",
+    p: "Vivienda — Buenos Aires",
   },
   {
     q: "Nos acompañaron desde el primer plano hasta la última terminación. El criterio estético del estudio se nota en todo.",
@@ -215,7 +215,7 @@ function ScrollHero() {
                   variants={eyebrowAnim}
                   className="eyebrow text-white/50 mb-5 md:mb-8"
                 >
-                  Estudio Onix · Ramos Mejía
+                  Estudio Onix · Buenos Aires
                 </motion.div>
                 <motion.h1
                   variants={headingAnim}

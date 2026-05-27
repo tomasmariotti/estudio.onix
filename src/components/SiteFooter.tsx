@@ -43,7 +43,7 @@ export function SiteFooter() {
       </div>
       <div className="container-edit py-6 border-t border-border flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted-foreground">
         <span>© {new Date().getFullYear()} Estudio Onix. Todos los derechos reservados.</span>
-        <span>Ramos Mejía · Buenos Aires · Argentina</span>
+        <span>Buenos Aires · Argentina</span>
       </div>
     </footer>
   );

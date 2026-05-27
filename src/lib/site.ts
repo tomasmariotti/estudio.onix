@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Estudio Onix",
   tagline: "Arquitectura · Interiorismo · Reformas integrales",
-  location: "Ramos Mejía, Buenos Aires",
+  location: "Buenos Aires, Argentina",
   phone: "+54 9 11 6924-6040",
   phoneHref: "tel:+5491169246040",
   email: "martin@estudionix.com",

@@ -28,12 +28,12 @@ const projects: {
   img: string;
   span: string;
 }[] = [
-  { title: "Casa Belgrano", cat: "Viviendas", year: "2024", loc: "Ramos Mejía", desc: "Suite principal con revestimientos de madera natural e iluminación cálida indirecta.", img: imgBedroom, span: "md:col-span-7 aspect-[4/3]" },
+  { title: "Casa Belgrano", cat: "Viviendas", year: "2024", loc: "Buenos Aires", desc: "Suite principal con revestimientos de madera natural e iluminación cálida indirecta.", img: imgBedroom, span: "md:col-span-7 aspect-[4/3]" },
   { title: "Edificio Aurora", cat: "Reformas integrales", year: "2024", loc: "Buenos Aires", desc: "Hall corporativo con envolvente de paneles perforados y carpinterías de bronce.", img: imgFacade, span: "md:col-span-5 aspect-[3/4]" },
   { title: "Baño Onix", cat: "Cocinas y baños", year: "2024", loc: "Haedo", desc: "Atmósfera spa con piedra clara, listones de madera y grifería negra.", img: imgShower, span: "md:col-span-4 aspect-[3/4]" },
   { title: "Cocina Mármol", cat: "Cocinas y baños", year: "2023", loc: "Castelar", desc: "Isla protagonista en mármol veteado, base de obra en proceso.", img: imgMarble, span: "md:col-span-8 aspect-[16/10]" },
   { title: "Atrio Cívico", cat: "Oficinas", year: "2023", loc: "CABA", desc: "Estructura de hormigón visto con bóvedas curvas y luz cenital.", img: imgAtrium, span: "md:col-span-6 aspect-[4/3]" },
-  { title: "Local Botánico", cat: "Locales comerciales", year: "2024", loc: "Ramos Mejía", desc: "Fachada vegetal con carpintería oscura y vidrio traslúcido.", img: imgLocal, span: "md:col-span-6 aspect-[4/3]" },
+  { title: "Local Botánico", cat: "Locales comerciales", year: "2024", loc: "Buenos Aires", desc: "Fachada vegetal con carpintería oscura y vidrio traslúcido.", img: imgLocal, span: "md:col-span-6 aspect-[4/3]" },
   { title: "Casa Histórica", cat: "Reformas integrales", year: "2023", loc: "CABA", desc: "Restauración de fachada y puesta en valor de molduras originales.", img: imgReforma, span: "md:col-span-5 aspect-[3/4]" },
   { title: "Cubierta Acero", cat: "Oficinas", year: "2022", loc: "Buenos Aires", desc: "Estructura metálica vista, juego de luz y sombra en la entrada.", img: imgStructure, span: "md:col-span-7 aspect-[4/3]" },
 ];
