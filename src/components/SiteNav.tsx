@@ -23,7 +23,7 @@ export function SiteNav() {
   }, []);
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-700 ease-[cubic-bezier(.16,.6,.24,1)] ${
         scrolled ? "bg-background/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
@@ -34,7 +34,7 @@ export function SiteNav() {
             alt="Estudio Onix"
             width={984}
             height={311}
-            className="h-9 sm:h-11 md:h-14 w-auto object-contain transition-opacity duration-500 group-hover:opacity-80"
+            className="h-9 sm:h-11 md:h-14 w-auto object-contain transition-opacity duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:opacity-75"
           />
         </Link>
 
@@ -44,7 +44,7 @@ export function SiteNav() {
             <li key={l.to}>
               <Link
                 to={l.to}
-                className="underline-slide text-foreground/80 hover:text-foreground transition-colors"
+                className="underline-slide text-foreground/70 hover:text-foreground transition-colors duration-600 ease-[cubic-bezier(.16,.6,.24,1)]"
                 activeProps={{ className: "text-foreground" }}
               >
                 {l.label}
@@ -56,27 +56,27 @@ export function SiteNav() {
           href={SITE.calendly}
           target="_blank"
           rel="noreferrer"
-          className="hidden md:inline-flex items-center gap-2 text-sm border border-foreground/80 px-5 py-2.5 hover:bg-foreground hover:text-background transition-colors duration-500"
+          className="hidden md:inline-flex items-center gap-2 text-sm border border-foreground/60 px-5 py-2.5 hover:bg-foreground hover:text-background hover:border-foreground transition-all duration-600 ease-[cubic-bezier(.16,.6,.24,1)]"
         >
           Agendá una asesoría
         </a>
         <button
           aria-label="Menú"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden p-2"
+          className="md:hidden p-2 transition-opacity duration-500 hover:opacity-70"
         >
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
       {open && (
-        <div className="md:hidden border-t border-border bg-background">
-          <div className="container-edit py-6 flex flex-col gap-5">
+        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+          <div className="container-edit py-8 flex flex-col gap-6">
             {links.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
                 onClick={() => setOpen(false)}
-                className="text-lg font-serif"
+                className="text-lg font-serif opacity-80 hover:opacity-100 transition-opacity duration-500"
               >
                 {l.label}
               </Link>
@@ -85,7 +85,7 @@ export function SiteNav() {
               href={SITE.calendly}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm border border-foreground px-5 py-3 mt-2 w-fit"
+              className="inline-flex items-center gap-2 text-sm border border-foreground px-5 py-3 mt-2 w-fit hover:bg-foreground hover:text-background transition-all duration-500"
             >
               Agendá una asesoría
             </a>

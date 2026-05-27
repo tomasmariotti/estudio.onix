@@ -12,11 +12,11 @@ export function SmoothScroll() {
     import("lenis").then(({ default: Lenis }) => {
       if (cancelled) return;
       const lenis = new Lenis({
-        duration: 1.15,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
+        duration: 1.6,
+        easing: (t: number) => 1 - Math.pow(1 - t, 4),
         smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 1.2,
+        wheelMultiplier: 0.75,
+        touchMultiplier: 1.0,
       });
       const raf = (time: number) => {
         lenis.raf(time);
