@@ -17,7 +17,6 @@ import imgLocal from "@/assets/proj-06-local.png";
 import imgMarble from "@/assets/proj-07-marble.png";
 import imgShower from "@/assets/proj-08-shower.png";
 import hero from "@/assets/proj-02-facade.png";
-import martinRojas from "@/assets/martin-rojas.png";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -544,9 +543,9 @@ function SiteManagerSection() {
               <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-foreground/[0.04] to-transparent -z-10" />
               <div className="img-hover overflow-hidden bg-secondary aspect-[3/4]">
                 <img
-                  src={martinRojas}
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/martin%20rojas-TVAkmsUlG3KxNTVGcAHRA9Xwf5nmVB.png"
                   alt="Martin Rojas, Maestro Mayor de Obras de Estudio Onix"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover object-top"
                   loading="lazy"
                 />
               </div>
