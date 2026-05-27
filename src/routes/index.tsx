@@ -96,6 +96,7 @@ function Home() {
       <FeaturedProjects />
       <ServicesSection />
       <ProcessSection />
+      <SiteManagerSection />
       <TestimonialsSection />
       <PremiumCTA />
       <ContactSection />
@@ -525,6 +526,73 @@ function ProcessSection() {
               </div>
             </Reveal>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── SITE MANAGER ─── */
+function SiteManagerSection() {
+  return (
+    <section className="container-edit py-32 md:py-48" id="equipo">
+      <div className="grid md:grid-cols-12 gap-12 md:gap-20 items-center">
+        <div className="md:col-span-5">
+          <Reveal>
+            <div className="relative">
+              <div className="absolute -inset-4 md:-inset-6 bg-gradient-to-br from-foreground/[0.04] to-transparent -z-10" />
+              <div className="img-hover overflow-hidden bg-secondary aspect-[3/4]">
+                <img
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/martin.rojas-ClrBhuJW60twVgbISruWDdbpbMGc99.png"
+                  alt="Martin Rojas, Maestro Mayor de Obras de Estudio Onix"
+                  className="h-full w-full object-cover object-top"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+        <div className="md:col-span-7">
+          <Reveal delay={150}>
+            <div className="chapter-mark"><span className="eyebrow">Dirección de obra</span></div>
+            <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
+              Martin Rojas.{" "}
+              <span className="italic text-muted-foreground">
+                Al frente de cada obra.
+              </span>
+            </h2>
+            <div className="mt-8 flex items-center gap-4">
+              <div className="h-px w-12 bg-foreground/30" />
+              <span className="eyebrow text-foreground/70">
+                Maestro Mayor de Obras
+              </span>
+            </div>
+            <p className="mt-10 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+              Martin lidera la ejecución técnica de cada proyecto de Estudio
+              Onix, garantizando que el diseño se traduzca en una obra
+              prolija, segura y fiel a la visión original. Su criterio
+              constructivo y su atención al detalle son la base sobre la que
+              se construye cada espacio que entregamos.
+            </p>
+            <div className="mt-12 grid grid-cols-2 gap-8 max-w-md">
+              <div>
+                <div className="font-serif text-3xl md:text-4xl tracking-tight">
+                  +10
+                </div>
+                <div className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  Años en obra
+                </div>
+              </div>
+              <div>
+                <div className="font-serif text-3xl md:text-4xl tracking-tight">
+                  100%
+                </div>
+                <div className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  Dirección presencial
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
