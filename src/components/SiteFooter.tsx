@@ -3,10 +3,10 @@ import { SITE } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border mt-32">
-      <div className="container-edit py-20 grid gap-14 md:grid-cols-12">
+    <footer className="border-t border-border mt-40">
+      <div className="container-edit py-24 grid gap-16 md:grid-cols-12">
         <div className="md:col-span-5">
-          <div className="font-serif text-5xl md:text-6xl leading-[0.95] tracking-tight">
+          <div className="font-serif text-5xl md:text-7xl leading-[0.92] tracking-tight">
             Estudio<br />Onix
           </div>
           <p className="mt-6 text-sm text-muted-foreground max-w-sm">
@@ -35,7 +35,7 @@ export function SiteFooter() {
             href={SITE.calendly}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center mt-6 text-sm border border-foreground px-5 py-2.5 hover:bg-foreground hover:text-background transition-colors duration-500"
+            className="btn-outline inline-flex items-center mt-6 text-sm border border-foreground px-5 py-2.5 hover:bg-foreground hover:text-background"
           >
             Reservá una llamada →
           </a>
@@ -43,7 +43,7 @@ export function SiteFooter() {
       </div>
       <div className="container-edit py-6 border-t border-border flex flex-col sm:flex-row justify-between gap-2 text-xs text-muted-foreground">
         <span>© {new Date().getFullYear()} Estudio Onix. Todos los derechos reservados.</span>
-        <span>Ramos Mejía · Buenos Aires · Argentina</span>
+        <span>Buenos Aires · Argentina</span>
       </div>
     </footer>
   );

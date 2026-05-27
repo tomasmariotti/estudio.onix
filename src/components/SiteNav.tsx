@@ -27,14 +27,14 @@ export function SiteNav() {
         scrolled ? "bg-background/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
-      <nav className="container-edit flex items-center justify-between py-5">
+      <nav className={`container-edit flex items-center justify-between transition-[padding] duration-700 ease-[cubic-bezier(.16,.6,.24,1)] ${scrolled ? "py-3.5" : "py-5"}`}>
         <Link to="/" className="flex items-center group" aria-label="Estudio Onix">
           <img
             src={logo}
             alt="Estudio Onix"
             width={984}
             height={311}
-            className="h-9 sm:h-11 md:h-14 w-auto object-contain transition-opacity duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:opacity-75"
+            className={`w-auto object-contain transition-all duration-700 ease-[cubic-bezier(.16,.6,.24,1)] group-hover:opacity-75 ${scrolled ? "h-7 sm:h-8 md:h-10" : "h-9 sm:h-11 md:h-14"}`}
           />
         </Link>
 

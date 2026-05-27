@@ -60,6 +60,11 @@
   --border: oklch(0.88 0.01 78);
   --input: oklch(0.9 0.01 78);
   --ring: oklch(0.7 0.02 70);
+
+  /* Cinematic easing tokens */
+  --ease-cinematic: cubic-bezier(.16,.6,.24,1);
+  --ease-soft:      cubic-bezier(.22,.61,.36,1);
+  --ease-quint-out: cubic-bezier(.22,1,.36,1);
 }
 
 .dark {
@@ -88,6 +93,16 @@
   }
   html {
     scroll-behavior: auto;
+    /* Anchor offset so in-page jumps don't sit under the fixed nav */
+    scroll-padding-top: 96px;
+    /* Native-feeling overscroll on iOS/Android; prevents pull-to-refresh
+       from interrupting cinematic frame transitions at the top of pages. */
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    /* Mobile Safari: inertial native scroll */
+    -webkit-overflow-scrolling: touch;
   }
   html.lenis, html.lenis body { height: auto; }
   .lenis.lenis-smooth { scroll-behavior: auto !important; }
@@ -100,17 +115,49 @@
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Editorial body rhythm */
+    font-size: 15px;
+    line-height: 1.7;
+    letter-spacing: -0.005em;
   }
   h1, h2, h3, h4, .font-serif {
     font-family: var(--font-serif);
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.014em;
+    text-wrap: balance;
+    /* Old-style figures for editorial numerals */
+    font-feature-settings: "onum", "liga", "kern";
+  }
+  p {
+    text-wrap: pretty;
   }
   ::selection {
     background: var(--ink);
     color: var(--background);
   }
+
+  /* Editorial focus ring */
+  :where(a, button, [role="button"], input, textarea, select):focus-visible {
+    outline: 1px solid color-mix(in oklab, var(--foreground) 50%, transparent);
+    outline-offset: 4px;
+    border-radius: 1px;
+  }
+
+  /* Slightly denser on small screens for premium hierarchy */
+  @media (max-width: 640px) {
+    body { font-size: 14.5px; line-height: 1.6; }
+    h1, h2, h3, h4, .font-serif { letter-spacing: -0.01em; }
+    /* Prevent very long tokens (URLs, project codes) from causing horizontal overflow */
+    p, h1, h2, h3, h4 { overflow-wrap: anywhere; }
+  }
+
+  /* Image rendering polish */
+  img { image-rendering: auto; }
+
+  /* Sections breathe extra at the top so they read as chapters */
+  section { scroll-margin-top: 96px; }
 }
 
 @layer utilities {
@@ -122,8 +169,8 @@
   }
   .eyebrow {
     font-family: var(--font-sans);
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
     font-weight: 500;
     color: var(--muted-foreground);
@@ -133,31 +180,97 @@
     background: var(--border);
   }
 
+  /* Editorial chapter mark — eyebrow paired with a hairline that draws in */
+  .chapter-mark {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+  .chapter-mark::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: color-mix(in oklab, var(--foreground) 28%, transparent);
+    flex: 0 0 0%;
+    transition: flex-basis 1.6s var(--ease-quint-out);
+  }
+  .reveal.is-in .chapter-mark::after,
+  .chapter-mark.is-in::after {
+    flex-basis: 56px;
+  }
+
   /* ── Reveal — slower, softer, more cinematic ── */
   .reveal {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translate3d(0, 28px, 0);
     transition:
-      opacity 1.4s cubic-bezier(.16,.6,.24,1),
-      transform 1.4s cubic-bezier(.16,.6,.24,1);
+      opacity 1.6s var(--ease-quint-out),
+      transform 1.6s var(--ease-quint-out),
+      filter 1.6s var(--ease-quint-out);
+    filter: blur(3px);
   }
   .reveal.is-in {
     opacity: 1;
-    transform: none;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
   }
+  /* Mobile: drop GPU-expensive blur, shorten travel.
+     Composited blur stalls iOS Safari + low-end Android badly during scroll. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .reveal {
+      transform: translate3d(0, 18px, 0);
+      filter: none;
+      transition:
+        opacity 1.05s var(--ease-quint-out),
+        transform 1.05s var(--ease-quint-out);
+    }
+  }
+  /* Variant: hairline that draws in as it enters view */
+  .reveal-line {
+    position: relative;
+    height: 1px;
+    background: transparent;
+    overflow: hidden;
+  }
+  .reveal-line::after {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0%;
+    background: var(--border);
+    transition: width 1.8s var(--ease-quint-out);
+  }
+  .reveal-line.is-in::after { width: 100%; }
 
   /* ── Image hover — slow, editorial zoom ── */
   .img-hover {
     overflow: hidden;
+    position: relative;
   }
   .img-hover img {
     transition:
-      transform 1.6s cubic-bezier(.16,.6,.24,1),
-      filter 1.2s ease;
+      transform 2s var(--ease-cinematic),
+      filter 1.4s ease;
   }
-  .img-hover:hover img {
-    transform: scale(1.035);
+  /* will-change is expensive; promote only on hover-capable devices */
+  @media (hover: hover) {
+    .img-hover img { will-change: transform; }
+    .img-hover:hover img { transform: scale(1.035); }
   }
+  /* Subtle veil that softens on hover for editorial polish */
+  .img-hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg,
+      transparent 55%,
+      color-mix(in oklab, var(--foreground) 8%, transparent) 100%);
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-cinematic);
+    pointer-events: none;
+  }
+  .img-hover:hover::after { opacity: 1; }
 
   /* ── Underline slide — elegant timing ── */
   .underline-slide {
@@ -165,7 +278,7 @@
     background-size: 0% 1px;
     background-repeat: no-repeat;
     background-position: 0 100%;
-    transition: background-size .7s cubic-bezier(.16,.7,.24,1);
+    transition: background-size .9s var(--ease-quint-out), color .6s var(--ease-cinematic);
     padding-bottom: 2px;
   }
   .underline-slide:hover {
@@ -177,20 +290,23 @@
     position: relative;
     display: block;
     border-radius: 1.25rem;
-    border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+    border: 1px solid color-mix(in oklab, var(--foreground) 7%, transparent);
     background: color-mix(in oklab, var(--background) 88%, var(--sand) 12%);
     overflow: hidden;
     isolation: isolate;
     transition:
-      transform .8s cubic-bezier(.16,.6,.24,1),
-      border-color .7s ease,
-      box-shadow .8s ease;
+      transform 1.1s var(--ease-quint-out),
+      border-color .9s ease,
+      box-shadow 1.1s ease,
+      background-color .9s ease;
     will-change: transform;
   }
   .glow-card:hover {
-    transform: translateY(-3px);
-    border-color: color-mix(in oklab, var(--foreground) 18%, transparent);
-    box-shadow: 0 28px 56px -28px color-mix(in oklab, var(--foreground) 20%, transparent);
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--foreground) 16%, transparent);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 4%, transparent),
+      0 36px 70px -34px color-mix(in oklab, var(--foreground) 22%, transparent);
   }
   .glow-card__glow {
     position: absolute;
@@ -198,10 +314,10 @@
     pointer-events: none;
     border-radius: inherit;
     background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%),
-                color-mix(in oklab, var(--foreground) 10%, transparent),
+                color-mix(in oklab, var(--foreground) 9%, transparent),
                 transparent 55%);
     opacity: 0;
-    transition: opacity .6s ease;
+    transition: opacity .9s var(--ease-quint-out);
     z-index: 0;
   }
   .glow-card:hover .glow-card__glow { opacity: 1; }
@@ -218,6 +334,17 @@
     animation: heroDrift 22s ease-in-out infinite alternate;
     opacity: .55;
     pointer-events: none;
+    will-change: transform;
+  }
+  /* Mobile: reduce blur radius and drift distance.
+     A 40px CSS blur on a full-viewport layer is one of the heaviest
+     compositor ops; cut it down for iOS / mid-range Android. */
+  @media (max-width: 768px), (pointer: coarse) {
+    .hero-gradient {
+      filter: blur(24px);
+      opacity: .45;
+      animation-duration: 30s;
+    }
   }
   @keyframes heroDrift {
     0%   { transform: translate3d(-2%, -1%, 0) scale(1); }
@@ -228,9 +355,15 @@
   .hero-scroll-container {
     position: relative;
     width: 100%;
+    /* Stabilize against iOS dynamic toolbar height changes during scroll.
+       Prevents layout shift / frame jitter when the address bar collapses. */
+    contain: layout paint;
   }
   .hero-scroll-container canvas {
     image-rendering: auto;
+    /* Hint compositor; avoids repaints during scroll-driven canvas updates */
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   /* ── Section divider line ── */
@@ -246,14 +379,16 @@
     position: relative;
     overflow: hidden;
     transition:
-      background-color .6s cubic-bezier(.16,.6,.24,1),
-      color .6s cubic-bezier(.16,.6,.24,1),
-      transform .6s cubic-bezier(.16,.6,.24,1),
-      box-shadow .6s ease;
+      background-color .9s var(--ease-quint-out),
+      color .9s var(--ease-quint-out),
+      transform .9s var(--ease-quint-out),
+      box-shadow .9s ease;
   }
   .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px -8px color-mix(in oklab, var(--foreground) 18%, transparent);
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--foreground) 6%, transparent),
+      0 22px 50px -18px color-mix(in oklab, var(--foreground) 28%, transparent);
   }
   .btn-primary:active {
     transform: translateY(0);
@@ -263,10 +398,10 @@
   .btn-outline {
     position: relative;
     transition:
-      border-color .6s cubic-bezier(.16,.6,.24,1),
-      background-color .6s cubic-bezier(.16,.6,.24,1),
-      color .6s cubic-bezier(.16,.6,.24,1),
-      transform .6s cubic-bezier(.16,.6,.24,1);
+      border-color .9s var(--ease-quint-out),
+      background-color .9s var(--ease-quint-out),
+      color .9s var(--ease-quint-out),
+      transform .9s var(--ease-quint-out);
   }
   .btn-outline:hover {
     transform: translateY(-1px);
@@ -276,18 +411,103 @@
     transition-duration: .15s;
   }
 
+  /* Arrow micro-interaction shared by CTAs */
+  .group:hover .cta-arrow {
+    transform: translate(2px, -2px);
+  }
+  .cta-arrow {
+    transition: transform .9s var(--ease-quint-out);
+  }
+
   /* ── Hero scroll indicator breathing animation ── */
   @keyframes breathe {
-    0%, 100% { opacity: 0.4; transform: translateY(0); }
-    50%      { opacity: 0.7; transform: translateY(3px); }
+    0%, 100% { opacity: 0.35; transform: translateY(0); }
+    50%      { opacity: 0.6;  transform: translateY(3px); }
   }
   .scroll-breathe {
-    animation: breathe 3.5s cubic-bezier(.4,0,.6,1) infinite;
+    animation: breathe 4.2s cubic-bezier(.4,0,.6,1) infinite;
+  }
+
+  /* ── Editorial scroll progress bar ── */
+  .scroll-progress {
+    position: fixed;
+    inset: 0 auto auto 0;
+    height: 1px;
+    width: 100%;
+    pointer-events: none;
+    z-index: 70;
+    background: transparent;
+  }
+  .scroll-progress__fill {
+    height: 100%;
+    width: 0%;
+    background: color-mix(in oklab, var(--foreground) 55%, transparent);
+    transform-origin: 0 50%;
+    transition: width .25s linear;
+  }
+
+  /* ── Editorial process row (hairline rhythm) ── */
+  .process-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    gap: clamp(1.5rem, 4vw, 4rem);
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+    border-top: 1px solid var(--border);
+    transition: background-color .9s var(--ease-quint-out);
+  }
+  .process-row:last-child { border-bottom: 1px solid var(--border); }
+  .process-row__num {
+    font-family: var(--font-serif);
+    font-feature-settings: "onum", "liga";
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    line-height: 1;
+    color: color-mix(in oklab, var(--foreground) 35%, transparent);
+    transition: color 1s var(--ease-quint-out);
+    min-width: 3ch;
+  }
+  .process-row:hover .process-row__num {
+    color: var(--foreground);
+  }
+  .process-row__title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 2vw, 1.85rem);
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+  }
+  .process-row__desc {
+    margin-top: .5rem;
+    font-size: .9rem;
+    color: var(--muted-foreground);
+    line-height: 1.6;
+    max-width: 38ch;
+  }
+  .process-row__meta {
+    font-size: .68rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--foreground) 45%, transparent);
+    align-self: start;
+    padding-top: .5rem;
+  }
+  @media (max-width: 720px) {
+    .process-row { grid-template-columns: auto 1fr; }
+    .process-row__meta { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1 !important; transform: none !important; }
+    .reveal { opacity: 1 !important; transform: none !important; filter: none !important; }
+    .reveal-line::after { width: 100% !important; transition: none !important; }
+    .chapter-mark::after { flex-basis: 56px !important; transition: none !important; }
     .hero-gradient { animation: none; }
     .scroll-breathe { animation: none; }
+    .img-hover img { transition: none !important; }
+    .btn-primary, .btn-outline, .glow-card { transition: none !important; }
+  }
+
+  /* Touch devices: kill hover-only transforms that can stick after a tap */
+  @media (hover: none) {
+    .glow-card:hover { transform: none; box-shadow: none; }
+    .btn-primary:hover, .btn-outline:hover { transform: none; box-shadow: none; }
   }
 }

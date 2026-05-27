@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 
 function NotFoundComponent() {
@@ -74,15 +75,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Estudio Onix · Arquitectura, Interiorismo y Reformas en Ramos Mejía" },
+      { title: "Estudio Onix · Arquitectura, Interiorismo y Reformas" },
       {
         name: "description",
         content:
-          "Estudio de arquitectura, diseño de interiores y reformas integrales en Ramos Mejía, Buenos Aires. Espacios modernos, funcionales y diseñados con criterio.",
+          "Estudio de arquitectura, diseño de interiores y reformas integrales en Buenos Aires. Espacios modernos, funcionales y diseñados con criterio.",
       },
       { name: "author", content: "Estudio Onix" },
       { property: "og:title", content: "Estudio Onix · Arquitectura e Interiorismo" },
-      { property: "og:description", content: "Diseñamos y ejecutamos espacios modernos, funcionales y con identidad. Ramos Mejía, Buenos Aires." },
+      { property: "og:description", content: "Diseñamos y ejecutamos espacios modernos, funcionales y con identidad. Buenos Aires." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -124,6 +125,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SmoothScroll />
+      <ScrollProgress />
       <Outlet />
     </QueryClientProvider>
   );
